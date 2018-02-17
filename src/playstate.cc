@@ -329,27 +329,27 @@ void PlayState::findBotSpace(int arr[], int& startpos, int& endpos)
 }
 
 void PlayState::check_all(int& x_val, int& num_rot){
-    /*test_board = new Board;
+    test_board = new Board;
     test_tetro = new Tetromino(tetro->type);
     int rot = 0;
-    std::vector<std::vector<pair<int, int>>> costs;
+    std::vector<std::vector<std::pair<int, int>>> costs;
     for (; rot < 4; rot++){
         test_tetro->rotate_right();
         costs.push_back(check_all_xpos());
     }
-    std::vector<std::pair<std::pair<int, int>, int>> mins;
-    std::pair<pair<int, int>, int> temp;
+    std::vector<std::pair<std::pair<int, int>, int>> mins; 
+    std::pair<std::pair<int, int>, int> temp;
     for (int k = 0; k < 4; k++){
-        temp.first = min(it->begin(), it->end());
-        temp.second = 
+        temp.first = *min_element(costs[k].begin(), costs[k].end()); 
+        temp.second = k;
         mins.push_back(temp);
     }
     x_val = min_element(mins.begin(), mins.end())->first.second;
-    num_rot =  min_element(mins.begin(), mins.end())->second;*/
+    num_rot =  min_element(mins.begin(), mins.end())->second;
 }
 
 std::vector<std::pair<int, int>> PlayState::check_all_xpos(){
-    /*int curx = -1*tetro->left;
+    int curx = -1*tetro->left;
     int stop = test_board->COLS - tetro->width + 1;
     std::vector<std::pair<int, int>> costs;
 
@@ -361,7 +361,7 @@ std::vector<std::pair<int, int>> PlayState::check_all_xpos(){
         costs.push_back(cost_pos);
         curx++;
     }
-    return costs;*/
+    return costs;
 }
 
 void PlayState::release_tetromino() {
