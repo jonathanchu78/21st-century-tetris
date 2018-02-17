@@ -7,6 +7,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
 #include <irrKlang.h>
+#include <vector>
 
 #include "src/gamestate.h"
 
@@ -41,8 +42,8 @@ class PlayState : public GameState {
 
     void release_tetromino();
     void findBotSpace(int arr[], int& startpos, int& endpos);
-    void check_all();
-    void check_all_xpos(); //helper function to check_all()
+    void check_all(int& x_val, int& num_rot); //returns x and # right rotations
+    vector<int> check_all_xpos(); //helper function to check_all()
     void draw_block(GameEngine* game, int x, int y, int k, SDL_Rect clips[]);
     void create_button(GameEngine* game,
             int x, int y, int width, int height, int color[]);
@@ -52,6 +53,9 @@ class PlayState : public GameState {
     Board* board;
     Tetromino* tetro;
     Tetromino* next_tetro;
+
+    Board* test_board;
+    Tetromino* test_tetro;
 
     // Music.
     irrklang::ISoundEngine* music_engine;

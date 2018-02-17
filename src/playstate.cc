@@ -3,6 +3,7 @@
 #include "src/playstate.h"
 
 #include <random>
+#include <vector>
 
 #include "src/game_engine.h"
 #include "src/tetromino.h"
@@ -319,18 +320,26 @@ void PlayState::findBotSpace(int arr[], int& startpos, int& endpos)
 	}
 }
 
-void PlayState::check_all(){
-
+void PlayState::check_all(int& x_val, int& num_rot){
+    test_board = new Board;
+    test_tetro = new Tetromino(tetro->type);
+    int rot = 0;
+    vector<vector<int>> costs;
+    for (; rot < 4; rot++){
+        test_tetro->rotate_right();
+        costs.push_back(check_all_xpos());
+    }
 }
 
-void PlayState::check_all_xpos(){
+vector<int> PlayState::check_all_xpos(){
     int curx = -1*tetro->left;
-    int stop = board->COLS - tetro->width + 1;
+    int stop = test_board->COLS - tetro->width + 1;
     for (int k = 0; k < stop; k++){
         //drop down with curx
         curx++;
     }
 }
+
 void PlayState::release_tetromino() {
     Tetromino* new_tetro = new Tetromino(rand()%7);
     new_tetro->set_position(next_tetro->x, next_tetro->y);
@@ -344,7 +353,7 @@ void PlayState::release_tetromino() {
     tetro->drop();
     int startpos;
     int endpos;
-    findBotSpace(board->color[0],startpos,endpos);
+    findBotSpace(board->color[29],startpos,endpos);
 	tetro->set_position(startpos + -1*tetro->left, tetro->y);
 	
 }
