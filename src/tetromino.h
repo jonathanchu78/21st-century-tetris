@@ -40,10 +40,13 @@ class Tetromino {
 
     void get_shadow(Board* board, int shadow_y[]);
 
+    void update_width();
+
     Status status;
     Movement movement;
     int x, y;  // Coordinates of the block at (0, 0).
     int type;
+    int width;
     bool free_fall;  // True if spacebar was pressed, falls down.
     bool speed_up;  // True if 's' or 'down' was pressed, falls faster.
     bool shift;  // True if player shifts tetromino left or right.

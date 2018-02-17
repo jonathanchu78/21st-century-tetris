@@ -44,6 +44,7 @@ Tetromino::Tetromino(int new_type) {
         coords[i][0] = coords_table[type][i][0];
         coords[i][1] = coords_table[type][i][1];
     }
+    update_width();
 }
 
 void Tetromino::rotate_left() {
@@ -52,6 +53,7 @@ void Tetromino::rotate_left() {
         coords[i][0] = -coords[i][1];
         coords[i][1] = temp;
     }
+    update_width();
 }
 
 void Tetromino::rotate_right() {
@@ -60,6 +62,19 @@ void Tetromino::rotate_right() {
         coords[i][0] = coords[i][1];
         coords[i][1] = -temp;
     }
+    update_width();
+}
+
+void Tetromino::update_width(){
+    int min = 0;
+    int max = 0;
+    for (int k = 0; k < 4; k++){
+        if (coords[k][0] < min)
+            min = coords[k][0];
+        if (coords[k][0] > max)
+            max = coords[k][0];   
+    }
+    width = max - min;
 }
 
 void Tetromino::get_shadow(Board *board, int shadow_y[]) {
