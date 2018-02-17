@@ -331,19 +331,24 @@ void PlayState::findBotSpace(int arr[], int& startpos, int& endpos)
 void PlayState::check_all(int& x_val, int& num_rot){
     test_board = new Board;
     test_tetro = new Tetromino(tetro->type);
+    int total_rotations;
+
     int rot = 0;
     std::vector<std::vector<std::pair<int, int>>> costs;
+    //get cost vectors for each rotation
     for (; rot < 4; rot++){
         test_tetro->rotate_right();
         costs.push_back(check_all_xpos());
     }
-    std::vector<std::pair<std::pair<int, int>, int>> mins; 
-    std::pair<std::pair<int, int>, int> temp;
+    std::vector<std::pair<std::pair<int, int>, int>> mins; //holds minimium costs for each rotation
+    std::pair<std::pair<int, int>, int> temp; //to insert elements into mins
+    //insert minimums into vector, along with indices
     for (int k = 0; k < 4; k++){
         temp.first = *min_element(costs[k].begin(), costs[k].end()); 
         temp.second = k;
         mins.push_back(temp);
     }
+    //determine minimums
     x_val = min_element(mins.begin(), mins.end())->first.second;
     num_rot =  min_element(mins.begin(), mins.end())->second;
 }
@@ -355,7 +360,10 @@ std::vector<std::pair<int, int>> PlayState::check_all_xpos(){
 
     std::pair<int, int> cost_pos;
     for (int k = 0; k < stop; k++){
-        //drop down with curx
+        while (test_tetro->y < board->ROWS && board->color[test_tetro->y][test_tetro->x] == -1){
+            test_tetro->y++;
+        }
+        test_tetro->y--;
         cost_pos.first = test_board->cost(); 
         cost_pos.second = curx;
         costs.push_back(cost_pos);
@@ -363,6 +371,7 @@ std::vector<std::pair<int, int>> PlayState::check_all_xpos(){
     }
     return costs;
 }
+
 
 void PlayState::release_tetromino() {
     Tetromino* new_tetro = new Tetromino(rand()%7);
