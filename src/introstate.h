@@ -21,6 +21,8 @@ class IntroState : public GameState {
     void update(GameEngine* game);
     void render(GameEngine* game);
 
+    void firstSearch();
+
     static IntroState* Instance() { return &m_introstate; }
 
     void render_logo(GameEngine* game);
