@@ -28,7 +28,6 @@ class GameEngine {
     void quit() { exit = true; }
 
     void findBotSpace(int arr[], int& startpos, int& endpos);
-    void firstSearch();
 
     // Screen dimensions.
     int width;
