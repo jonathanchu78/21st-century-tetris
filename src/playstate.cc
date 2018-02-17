@@ -375,11 +375,18 @@ void PlayState::release_tetromino() {
     next_tetro = new_tetro;
 
     tetro->drop();
+    /*
     int startpos;
     int endpos;
     findBotSpace(board->color[board->ROWS-1],startpos,endpos);
 	tetro->set_position(startpos + -1*tetro->left, tetro->y);
     tetro->speed_up = true;
+    */
+    int newx;
+    int rotnum;
+    check_all(newx,rotnum);
+    tetro->set_position(newx,tetro->y);
+    tetro->rotate_right_multiple(rotnum);
 	
 }
 
