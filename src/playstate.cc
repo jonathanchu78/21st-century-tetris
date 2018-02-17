@@ -345,7 +345,7 @@ void PlayState::release_tetromino() {
     int startpos;
     int endpos;
     findBotSpace(board->color[0],startpos,endpos);
-	tetro->set_position(startpos + -tetro->left);
+	tetro->set_position(startpos + -1*tetro->left, tetro->y);
 	
 }
 
