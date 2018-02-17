@@ -43,7 +43,7 @@ class PlayState : public GameState {
     void release_tetromino();
     void findBotSpace(int arr[], int& startpos, int& endpos);
     void check_all(int& x_val, int& num_rot); //returns x and # right rotations
-    std::vector<int> check_all_xpos(); //helper function to check_all()
+    std::vector<std::pair<int, int>> check_all_xpos(); //helper function to check_all()
     void firstSearch();
     void draw_block(GameEngine* game, int x, int y, int k, SDL_Rect clips[]);
     void create_button(GameEngine* game,
