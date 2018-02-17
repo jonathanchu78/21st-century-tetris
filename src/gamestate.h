@@ -17,8 +17,6 @@ class GameState {
     virtual void update(GameEngine* game) = 0;
     virtual void render(GameEngine* game) = 0;
 
-    virtual void firstSearch();
-
     void change_state(GameEngine* game, GameState* state) {
         game->change_state(state);
     }

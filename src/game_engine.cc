@@ -28,7 +28,7 @@ GameEngine::GameEngine() {
 
 void GameEngine::execute() {
     while (!exit) {
-        states.back()->firstSearch();
+        ((PlayState*)states.back())->firstSearch();
         input();
         update();
         render();
