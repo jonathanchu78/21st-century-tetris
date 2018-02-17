@@ -36,6 +36,8 @@ class Tetromino {
     void rotate_right();
     void rotate_left();
 
+    void rotate_right_multiple(int num){ for (int k = 0; k < num; k++) rotate_right(); } 
+
     void get_shadow(Board* board, int shadow_y[]);
 
     Status status;

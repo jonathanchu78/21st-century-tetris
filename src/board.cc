@@ -60,3 +60,19 @@ bool Board::add(Tetromino *tetro) {
     }
     return true;
 }
+
+int Board::empty_spots(int i){ // count number of empty spots in row i
+    int count = 0;
+    for (int k = 0; k < COLS; k++){
+        if (color[i][k] == -1) count++;
+    }
+    return count;
+}
+int Board::cost(){
+    int cost = 0;
+    int weights[4] = { 12, 8, 4, 2 };
+    for (int k = 0; k < 4; k++) {
+        cost += empty_spots(k)*weights[k];
+    }
+    return cost;
+}

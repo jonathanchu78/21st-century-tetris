@@ -40,6 +40,7 @@ class PlayState : public GameState {
     static PlayState m_playstate;
 
     void release_tetromino();
+    void findBotSpace(int arr[], int& startpos, int& endpos);
     void draw_block(GameEngine* game, int x, int y, int k, SDL_Rect clips[]);
     void create_button(GameEngine* game,
             int x, int y, int width, int height, int color[]);

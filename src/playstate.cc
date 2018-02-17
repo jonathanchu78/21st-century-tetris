@@ -330,7 +330,9 @@ void PlayState::release_tetromino() {
     next_tetro = new_tetro;
 
     tetro->drop();
-	int bot[board->COLS] = board->color[0];
+    int startpos;
+    int endpos;
+    findBotSpace(board->color[0],startpos,endpos);
 }
 
 // Update game values.
