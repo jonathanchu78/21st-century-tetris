@@ -324,8 +324,12 @@ void PlayState::check_all(){
 }
 
 void PlayState::check_all_xpos(){
-    //int initialx = tetro->
+    int curx = -1*tetro->left;
     int stop = board->COLS - tetro->width + 1;
+    for (int k = 0; k < stop; k++){
+        //drop down with curx
+        curx++;
+    }
 }
 
 void PlayState::release_tetromino() {
