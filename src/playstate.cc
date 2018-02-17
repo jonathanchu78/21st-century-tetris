@@ -331,7 +331,6 @@ void PlayState::check_all_xpos(){
         curx++;
     }
 }
-
 void PlayState::release_tetromino() {
     Tetromino* new_tetro = new Tetromino(rand()%7);
     new_tetro->set_position(next_tetro->x, next_tetro->y);
@@ -346,6 +345,8 @@ void PlayState::release_tetromino() {
     int startpos;
     int endpos;
     findBotSpace(board->color[0],startpos,endpos);
+	tetro->set_position(startpos + -tetro->left);
+	
 }
 
 // Update game values.

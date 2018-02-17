@@ -47,7 +47,7 @@ class Tetromino {
     int x, y;  // Coordinates of the block at (0, 0).
     int type;
     int width;
-    int left; //-1 or -2 based on the orientation
+    int left; //-1 or 0 based on the orientation
     bool free_fall;  // True if spacebar was pressed, falls down.
     bool speed_up;  // True if 's' or 'down' was pressed, falls faster.
     bool shift;  // True if player shifts tetromino left or right.
