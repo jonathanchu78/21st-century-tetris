@@ -160,6 +160,13 @@ void PlayState::reset() {
     paused = false;
 }
 
+void PlayState::firstSearch(){
+    int startpos;
+    int endpos;
+    findBotSpace(board->color[ROWS-1],startpos,endpos);
+    tetro->set_position(startpos + -1*tetro->left, tetro->y);
+}
+
 // Handle player input.
 void PlayState::input(GameEngine *game) {
     // Queuing events.
@@ -344,7 +351,7 @@ void PlayState::release_tetromino() {
     tetro->drop();
     int startpos;
     int endpos;
-    findBotSpace(board->color[0],startpos,endpos);
+    findBotSpace(board->color[board->ROWS-1],startpos,endpos);
 	tetro->set_position(startpos + -1*tetro->left, tetro->y);
 	
 }

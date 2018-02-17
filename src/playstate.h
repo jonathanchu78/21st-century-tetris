@@ -41,6 +41,7 @@ class PlayState : public GameState {
 
     void release_tetromino();
     void findBotSpace(int arr[], int& startpos, int& endpos);
+    void firstSearch();
     void check_all();
     void check_all_xpos(); //helper function to check_all()
     void draw_block(GameEngine* game, int x, int y, int k, SDL_Rect clips[]);
