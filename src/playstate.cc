@@ -284,6 +284,41 @@ void PlayState::input(GameEngine *game) {
     }
 }
 
+void PlayState::findBotSpace(int arr[], int& startpos, int& endpos)
+{
+	startpos = 0;
+	endpos = 0;
+	int n = board->COLS;
+	int curstart = 0;
+	int curend = 0;
+
+	// Traverse string except last character
+	for (int i = 0; i < n; i++)
+	{
+		if (arr[i] == -1) {
+			// If current character matches with next
+			if (i < n - 1 && arr[i + 1] == -1) {
+				curend = i + 1;
+			}
+
+
+			// If doesn't match, update result
+			// (if required) and reset count
+			else
+			{
+				if (curend - curstart > endpos - startpos) {
+					endpos = curend;
+					startpos = curstart;
+				}
+				curstart = i + 1;
+			}
+		}
+		else {
+			curstart++;
+		}
+	}
+}
+
 void PlayState::release_tetromino() {
     Tetromino* new_tetro = new Tetromino(rand()%7);
     new_tetro->set_position(next_tetro->x, next_tetro->y);
@@ -295,6 +330,7 @@ void PlayState::release_tetromino() {
     next_tetro = new_tetro;
 
     tetro->drop();
+	int bot[board->COLS] = board->color[0];
 }
 
 // Update game values.
