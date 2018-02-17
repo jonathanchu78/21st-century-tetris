@@ -161,6 +161,13 @@ void PlayState::reset() {
     paused = false;
 }
 
+void PlayState::firstSearch(){
+    int startpos;
+    int endpos;
+    findBotSpace(board->color[board->ROWS-1],startpos,endpos);
+    tetro->set_position(startpos + -1*tetro->left, tetro->y);
+}
+
 // Handle player input.
 void PlayState::input(GameEngine *game) {
     // Queuing events.
@@ -324,14 +331,14 @@ void PlayState::check_all(int& x_val, int& num_rot){
     test_board = new Board;
     test_tetro = new Tetromino(tetro->type);
     int rot = 0;
-    vector<vector<int>> costs;
+    std::vector<std::vector<int>> costs;
     for (; rot < 4; rot++){
         test_tetro->rotate_right();
         costs.push_back(check_all_xpos());
     }
 }
 
-vector<int> PlayState::check_all_xpos(){
+std::vector<int> PlayState::check_all_xpos(){
     int curx = -1*tetro->left;
     int stop = test_board->COLS - tetro->width + 1;
     for (int k = 0; k < stop; k++){
@@ -353,7 +360,7 @@ void PlayState::release_tetromino() {
     tetro->drop();
     int startpos;
     int endpos;
-    findBotSpace(board->color[29],startpos,endpos);
+    findBotSpace(board->color[board->ROWS-1],startpos,endpos);
 	tetro->set_position(startpos + -1*tetro->left, tetro->y);
 	
 }
