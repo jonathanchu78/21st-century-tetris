@@ -319,6 +319,15 @@ void PlayState::findBotSpace(int arr[], int& startpos, int& endpos)
 	}
 }
 
+void PlayState::check_all(){
+
+}
+
+void PlayState::check_all_xpos(){
+    //int initialx = tetro->
+    int stop = board->COLS - tetro->width + 1;
+}
+
 void PlayState::release_tetromino() {
     Tetromino* new_tetro = new Tetromino(rand()%7);
     new_tetro->set_position(next_tetro->x, next_tetro->y);

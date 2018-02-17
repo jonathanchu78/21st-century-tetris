@@ -16,7 +16,7 @@ const int Tetromino::coords_table[7][4][2] = {
                                                     // |_|_|
 
     { { -1, 0 }, { 0, 0 }, { 1, 0 }, { 0, 1 } },    // |_|_|_|  3. T-Block
-                                                    //     |_|
+                                                    //   |_|
 
     { { 0, -1 }, { 0, 0 }, { 1, 0 }, { 1, 1 } },    //          4. S-Block
                                                     //   |_|_|
@@ -75,6 +75,7 @@ void Tetromino::update_width(){
             max = coords[k][0];   
     }
     width = max - min;
+    left = min;
 }
 
 void Tetromino::get_shadow(Board *board, int shadow_y[]) {
