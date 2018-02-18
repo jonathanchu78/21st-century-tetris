@@ -380,6 +380,10 @@ void PlayState::check_all(int& x_val, int& num_rot){
                 }
             }
         }
+        for(int i= 0; i < 14; i++){
+            if(color[27][i] != -1);
+        }
+        filled = true;
     }
     if(filled = true && tetro->type == 5){
         x_val = 14; 
@@ -513,7 +517,7 @@ void PlayState::update(GameEngine* game) {
 
         // Assign the time required for tetromino to fall down one block.
         if (tetro->speed_up) {
-            time_till_drop = 0.04f;  // 2x slower than free fall.
+            time_till_drop = 0.12f;  // 2x slower than free fall.
         } else {
             // Drop speed proportional to score.
             time_till_drop = 0.0006f - board->get_score()*acceleration;
