@@ -44,7 +44,7 @@ class PlayState : public GameState {
     void findBotSpace(int arr[], int& startpos, int& endpos);
     void copyColor();
     void check_all(int& x_val, int& num_rot); //returns x and # right rotations
-    std::vector<std::pair<int, int>> check_all_xpos(); //helper function to check_all()
+    std::pair<int, int> check_all_xpos(); //helper function to check_all()
     int empty_spots(int i);
     int cost();
     void firstSearch();
