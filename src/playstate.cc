@@ -138,6 +138,7 @@ void PlayState::resume() {
     paused = false;
 }
 
+int ending_bound =13;
 // Restarts game.
 void PlayState::reset() {
     // Empty the board.
@@ -174,6 +175,7 @@ void PlayState::reset() {
     tetro->rotate_right_multiple(rotnum);
     tetro->set_position(newx,tetro->y);
     tetro->speed_up = true;
+    ending_bound = 14;
 }
 
 // Handle player input.
@@ -368,7 +370,6 @@ int PlayState::cost(){
     return cost;
 }
 
-int ending_bound =13;
 bool proceed;
 bool PlayState::checkInBounds(){
     for (int k = 0; k < 4; k++){
