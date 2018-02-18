@@ -409,6 +409,7 @@ std::pair<int, int> PlayState::check_all_xpos(){
                     }
                 }
             }
+            std::cerr << "Check is " << valid << std::endl;
             if(valid){
                 copyColor();
                 for(int i = 0; i < tetro->SIZE;i++){
