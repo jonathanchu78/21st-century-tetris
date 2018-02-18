@@ -423,6 +423,8 @@ std::pair<int, int> PlayState::check_all_xpos(){
             }
         }
     }
+    cerr << "Min is" << min << endl;
+    cerr << "Xpos is " << x << endl;
     std::pair<int,int> store;
     store.first = min;
     store.second = x;
