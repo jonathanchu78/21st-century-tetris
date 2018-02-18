@@ -310,8 +310,13 @@ int PlayState::empty_spots(int i){ // count number of empty spots in row i
     int count = 0;
     for (int k = 0; k < board->COLS; k++){
         if (test_board[i][k] == -1) count++;
-        else if (i != 29 && test_board[i + 1][k] == -1)
-            count += 4; //ADD TO COST 
+        else if (i != 29 && test_board[i + 1][k] == -1){
+            if (i <= 25)
+                if (test_board[i + 2][k] == -1 && test_board[i + 3][k] == -1 && test_board[i + 4][k] == -1){}
+                else count += 4;
+            else
+                count += 4; //ADD TO COST 
+        }   
     }
     return count;
 }
