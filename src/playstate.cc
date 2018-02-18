@@ -405,6 +405,7 @@ int initial;
 void PlayState::check_all(int& x_val, int& num_rot){
     std::cerr << "before new tetromino\n" << std::endl;
     bool filled = true;
+    bool reached = true;
     if(tetro->type == 5){
         for(int i = 0; i < 14;i++){
             for(int j = 26; j < 30; j++){
@@ -416,8 +417,12 @@ void PlayState::check_all(int& x_val, int& num_rot){
         for(int i= 0; i < 14; i++){
             if(board->color[22][i] != -1){
                 filled = true;
+                reached = false;
                 ending_bound = 14;
             }
+        }
+        if(reached){
+            ending_bound=13;
         }
     }
     if(filled == true && tetro->type == 5 && endingbound != 14){
@@ -553,10 +558,10 @@ void PlayState::update(GameEngine* game) {
 
         // Assign the time required for tetromino to fall down one block.
         if (tetro->speed_up) {
-            time_till_drop = 0.04f;  // 2x slower than free fall.
+            time_till_drop = 0.4f;  // 2x slower than free fall.
         } else {
             // Drop speed proportional to score.
-            time_till_drop = 0.0006f - board->get_score()*acceleration;
+            time_till_drop = 0.06f - board->get_score()*acceleration;
         }
 
         // Add time elapsed.
