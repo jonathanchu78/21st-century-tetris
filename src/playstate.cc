@@ -308,11 +308,14 @@ void PlayState::copyColor(){
 }
 /*
 int count_pits(int length){
+    int count = 0;
     for (int k = 0; k < 15; k++){
-        for (int j = 0; j < 30; j++)
+        for (int j = 0; j < 30; j++){
+            if ()
+        }
     }
-}
-*/
+}*/
+
 int PlayState::empty_spots(int i){ // count number of empty spots in row i
     int count = 0;
     for (int k = 0; k < board->COLS; k++){
