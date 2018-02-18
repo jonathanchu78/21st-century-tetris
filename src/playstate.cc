@@ -357,66 +357,76 @@ int PlayState::cost(){
 //}
 int initial;
 void PlayState::check_all(int& x_val, int& num_rot){
-    std::cerr << "before new tetromino\n" << std::endl;
-    test_tetro = new Tetromino(tetro->type);
-    initial = 3;
     //int total_rotations;
 
     int rot = 0;
-    std::vector<std::vector<std::pair<int, int>>> costs;
+    std::vector<std::pair<int, int>> costs;
     std::cerr << "before rotating\n" << std::endl;
+    initial = 3;
     //get cost vectors for each rotation
     for (; rot < 4; rot++){
-        std::cerr << "rotation is " << rot << std::endl;
+        test_tetro = new Tetromino(tetro->type);
+        test_tetro->rotate_right_multiple(rot);
         costs.push_back(check_all_xpos());
-        test_tetro->rotate_right();
+        delete(test_tetro);
     }
     std::vector<std::pair<std::pair<int, int>, int>> mins; //holds minimium costs for each rotation
     std::pair<std::pair<int, int>, int> temp; //to insert elements into mins
     //insert minimums into vector, along with indices
     for (int k = 0; k < 4; k++){
-        temp.first = *min_element(costs[k].begin(), costs[k].end()); 
+        temp.first = costs[k];
         temp.second = k;
         mins.push_back(temp);
     }
     //determine minimums
     x_val = min_element(mins.begin(), mins.end())->first.second;
     num_rot =  min_element(mins.begin(), mins.end())->second;
-    delete(test_tetro);
     std::cerr << "x_val is " << x_val << " and num_rot is " << num_rot << std::endl;
 }
 
-std::vector<std::pair<int, int>> PlayState::check_all_xpos(){
-    std::cerr << "tetro->left is " << tetro->left << std::endl;
-    int curx = -1*tetro->left;
-    int stop = board->COLS - tetro->width;
-    std::vector<std::pair<int, int>> costs;
-
-    std::pair<int, int> cost_pos;
-    for (int k = 0; k < stop; k++){
-        test_tetro->y = initial;
-        copyColor();
-        std::cerr << "ROWS IS " << board->ROWS << std::endl;
-        while (test_tetro->y + test_tetro->bottom < board->ROWS -1 && test_board[test_tetro->y + test_tetro->bottom][test_tetro->x] == -1){
-            (test_tetro->y)++;
-            std::cerr << "left is " << test_tetro->left << " and bottom is " << test_tetro->bottom << std::endl;
+std::pair<int, int> PlayState::check_all_xpos(){
+    int min = 2147483647;
+    int x = 0;
+    for(int i = 0; i < board->COLS;i++){
+        for(int j = 0; j < board->ROWS;j++){
+            test_tetro.set_position(i,j);
+            copyColor();
+            bool valid = true;
+            for (int i = 0; i < tetro->SIZE; i++) {
+                int x = tetro->get_block_x(i);
+                int y = tetro->get_block_y(i);
+                if (x < 0 || x >= board->COLS) {
+                    valid = false;
+                    break;
+                } else if (y < 0) {  // Block touches ground.
+                    valid = false;
+                    break;
+                } else if (y >= 0) {  // Block is on the board.
+                // Block touched another block.
+                    if (board->color[y][x] != -1) {
+                        valid = false;
+                        break;
+                    }
+                }
+            }
+            if(valid){
+                copyColor();
+                for(int i = 0; i < tetro->SIZE;i++){
+                    int x = tetro->get_block_x(i);
+                    int y = tetro->get_block_y(i);
+                    test_board[y][x] = -1;
+                }
+                if(cost() < min){
+                    min = cost();
+                    x = i;
+                }
+            }
         }
-        //test_tetro->y = 27;
-        test_tetro->x = curx;
-        for (int k = 0; k < 4; k++){
-            std::cerr << "(" << test_tetro->coords[k][0] + test_tetro->x << ", " << test_tetro->coords[k][1] + test_tetro->y << ")" << std::endl;
-            test_board[test_tetro->coords[k][1] + test_tetro->y][test_tetro->coords[k][0] + test_tetro->x] = 1;
-        }
-        std::cerr << "x is " << curx << " and y is " << test_tetro->y << std::endl;
-        cost_pos.first = cost(); 
-        std::cerr << "cost is " << cost() << std::endl;
-        cost_pos.second = curx;
-        costs.push_back(cost_pos);
-        curx++;
-
-        test_tetro->y = initial;
     }
-    return costs;
+    std::pair<int,int> store;
+    store.first = min;
+    store.second = x;
+    return store;
 }
 
 
