@@ -368,7 +368,7 @@ int PlayState::cost(){
     return cost;
 }
 
-int endingbound =14;
+int ending_bound =13
 bool proceed;
 bool PlayState::checkInBounds(){
     for (int k = 0; k < 4; k++){
@@ -378,7 +378,7 @@ bool PlayState::checkInBounds(){
             proceed = false;
             return false;
         }                                                                     
-        if (test_tetro->coords[k][0] + test_tetro->x > endingbound){
+        if (test_tetro->coords[k][0] + test_tetro->x > ending_bound){
             //test_tetro->x--;
             std::cerr << "X IS TOO HIGH\n" << std::endl;
             proceed = false;
@@ -409,23 +409,27 @@ void PlayState::check_all(int& x_val, int& num_rot){
         for(int i = 0; i < 14;i++){
             for(int j = 26; j < 30; j++){
                 if(board->color[j][i] == -1){
-                    endingbound = 13;
                     filled = false;
                 }
             }
         }
         for(int i= 0; i < 14; i++){
             if(board->color[22][i] != -1){
-                 endingbound = 14;
+                 filled = true;
+            }
+        }
+        for(int i= 0 ;i < 14; i++){
+            if(board->color[14][i] != -1){
+                filled = true;
+                ending_bound = 14;
             }
         }
     }
-    if(filled && tetro->type == 5){
+    if(filled == true && tetro->type == 5){
         x_val = 14; 
         num_rot = 0;
         return;
     }
-    endingbound = 13;
     test_tetro = new Tetromino(tetro->type);
     initial = 3;
     //int total_rotations;
