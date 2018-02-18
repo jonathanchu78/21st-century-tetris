@@ -343,7 +343,7 @@ int PlayState::empty_spots(int i){ // count number of empty spots in row i
         if (test_board[i][k] == -1) count++;
         else if (i != 29 && test_board[i + 1][k] == -1){
             if (i <= 25)
-                if (test_board[i + 2][k] == -1 && test_board[i + 3][k] == -1 && test_board[i + 4][k] == -1 && count_pits(4) < 2){}
+                if (test_board[i + 2][k] == -1 && test_board[i + 3][k] == -1 && test_board[i + 4][k] == -1 && count_pits(4) >= 2){}
                 else count += 4;
             else
                 count += 4; //ADD TO COST 
@@ -377,7 +377,7 @@ bool PlayState::checkInBounds(){
             proceed = false;
             return false;
         }
-        if (test_tetro->coords[k][0] + test_tetro->x > 14){
+        if (test_tetro->coords[k][0] + test_tetro->x > 13){
             //test_tetro->x--;
             std::cerr << "X IS TOO HIGH\n" << std::endl;
             proceed = false;
@@ -403,17 +403,17 @@ bool PlayState::checkCollision(){
 int initial;
 void PlayState::check_all(int& x_val, int& num_rot){
     std::cerr << "before new tetromino\n" << std::endl;
-    bool filled = true
+    bool filled = true;
     if(tetro->type == 5){
         for(int i = 0; i < 14;i++){
             for(int j = 26; j < 30; j++){
-                if(color[j][i] == -1){
+                if(board->color[j][i] == -1){
                     filled = false;
                 }
             }
         }
     }
-    if(filled = true && tetro->type == 5){
+    if(filled == true && tetro->type == 5){
         x_val = 14; 
         num_rot = 0;
         return;
