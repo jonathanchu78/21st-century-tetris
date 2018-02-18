@@ -6,6 +6,7 @@
 #include <vector>
 #include <algorithm>
 #include <iostream>
+#include <cmath>
 
 #include "src/game_engine.h"
 #include "src/tetromino.h"
@@ -305,7 +306,13 @@ void PlayState::copyColor(){
             test_board[j][k] = board->color[j][k];
         }
 }
-
+/*
+int count_pits(int length){
+    for (int k = 0; k < 15; k++){
+        for (int j = 0; j < 30; j++)
+    }
+}
+*/
 int PlayState::empty_spots(int i){ // count number of empty spots in row i
     int count = 0;
     for (int k = 0; k < board->COLS; k++){
@@ -321,13 +328,14 @@ int PlayState::empty_spots(int i){ // count number of empty spots in row i
     return count;
 }
 
+const double factor = 1.5;
 int PlayState::cost(){
     int cost = 0;
     std::vector<int> weights;
-    int weight = 191751;
+    double weight = std::pow(factor, 30);
     for (int k = 29; k >= 0; k--){
         weights.push_back(weight);
-        weight /= 1.5;
+        weight /= factor;
     }
     int size = weights.size();
     for (int k = 0; k < size; k++) {
