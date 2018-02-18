@@ -41,7 +41,6 @@ class PlayState : public GameState {
     static PlayState m_playstate;
 
     void release_tetromino();
-    void findBotSpace(int arr[], int& startpos, int& endpos);
     void copyColor();
     void check_all(int& x_val, int& num_rot); //returns x and # right rotations
     std::vector<std::pair<int, int>> check_all_xpos(); //helper function to check_all()
