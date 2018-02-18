@@ -37,13 +37,21 @@ void Board::delete_full_rows() {
         shift_down(row);
         row++;
 
-        increase_score_by(1);
+        increase_score_by(40);
         bonus_counter++;
         render_score = true;
     }
-
-    if (bonus_counter == 4)
-       increase_score_by(BONUS);
+    switch (bonus_counter){
+        case 2:
+            increase_score_by(100);
+            break;
+        case 3:
+            increase_score_by(300);
+            break;
+        case 4:
+            increase_score_by(1200);
+            break;
+    }   
 }
 
 bool Board::add(Tetromino *tetro) {
