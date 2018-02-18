@@ -381,7 +381,7 @@ void PlayState::check_all(int& x_val, int& num_rot){
             }
         }
         for(int i= 0; i < 14; i++){
-            if(color[27][i] != -1);
+            if(board->color[27][i] != -1);
         }
         filled = true;
     }
@@ -393,6 +393,7 @@ void PlayState::check_all(int& x_val, int& num_rot){
     test_tetro = new Tetromino(tetro->type);
     initial = 3;
     //int total_rotations;
+
 
     int rot = 0;
     std::vector<std::vector<std::pair<int, int>>> costs;
