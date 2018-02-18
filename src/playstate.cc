@@ -362,8 +362,8 @@ void PlayState::check_all(int& x_val, int& num_rot){
     std::cerr << "before rotating\n" << std::endl;
     //get cost vectors for each rotation
     for (; rot < 4; rot++){
-        test_tetro->rotate_right();
         costs.push_back(check_all_xpos());
+        test_tetro->rotate_right();
     }
     std::vector<std::pair<std::pair<int, int>, int>> mins; //holds minimium costs for each rotation
     std::pair<std::pair<int, int>, int> temp; //to insert elements into mins
@@ -395,7 +395,8 @@ std::vector<std::pair<int, int>> PlayState::check_all_xpos(){
         test_tetro->y = 28;
         test_tetro->x = curx;
         for (int k = 0; k < 4; k++){
-            test_board[test_tetro->coords[k][1]][test_tetro->coords[k][0]] = 1;
+            test_board[test_tetro->coords[k][1] + test_tetro->y][test_tetro->coords[k][0] + test_tetro->x] = 1;
+            std::cerr << "(" << test_tetro->coords[k][0] + test_tetro->x << ", " << test_tetro->coords[k][1] + test_tetro->y << ")" << std::endl;
         }
         std::cerr << "x is " << curx << " and y is " << test_tetro->y << std::endl;
         cost_pos.first = cost(); 
@@ -427,9 +428,9 @@ void PlayState::release_tetromino() {
 	tetro->set_position(startpos + -1*tetro->left, tetro->y);
     tetro->speed_up = true;
     */
-    int newx = 4;
-    int rotnum = 2;
-    //check_all(newx,rotnum);
+    int newx;
+    int rotnum;
+    check_all(newx,rotnum);
     tetro->rotate_right_multiple(rotnum);
     tetro->set_position(newx,tetro->y);
 	
