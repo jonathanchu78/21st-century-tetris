@@ -412,13 +412,11 @@ void PlayState::check_all(int& x_val, int& num_rot){
                 }
             }
         }
-<<<<<<< HEAD
         for(int i= 0; i < 14; i++){
-            if(board->color[27][i] != -1);
+            if(board->color[27][i] != -1){
+                 filled = true;
+            }
         }
-        filled = true;
-=======
->>>>>>> dbaf4e66b2ccb84829c2f2069ea520819e3d62d0
     }
     if(filled == true && tetro->type == 5){
         x_val = 14; 
