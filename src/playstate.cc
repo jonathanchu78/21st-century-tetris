@@ -421,7 +421,7 @@ void PlayState::check_all(int& x_val, int& num_rot){
             }
         }
     }
-    if(filled == true && tetro->type == 5 && endingbound != 14){
+    if(filled == true && tetro->type == 5 && ending_bound != 14){
         x_val = 14; 
         num_rot = 0;
         return;
@@ -554,10 +554,10 @@ void PlayState::update(GameEngine* game) {
 
         // Assign the time required for tetromino to fall down one block.
         if (tetro->speed_up) {
-            time_till_drop = 0.04f;  // 2x slower than free fall.
+            time_till_drop = 0.000000000001f;  // 2x slower than free fall.
         } else {
             // Drop speed proportional to score.
-            time_till_drop = 0.0006f - board->get_score()*acceleration;
+            time_till_drop = 0.0000000000006f - board->get_score()*acceleration;
         }
 
         // Add time elapsed.
