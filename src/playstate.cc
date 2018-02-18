@@ -345,8 +345,8 @@ int PlayState::empty_spots(int i){ // count number of empty spots in row i
 }
 int PlayState::cost(){
     int cost = 0;
-    int weights[4] = { 50, 15, 11, 8 };
-    for (int k = 0; k < 4; k++) {
+    int weights[9] = { 500, 250, 125, 63, 32, 16, 8, 4, 2 };
+    for (int k = 0; k < 9; k++) {
         cost += empty_spots(29-k)*weights[k];
     }
     return cost;
@@ -366,6 +366,8 @@ bool PlayState::checkInBounds(){
             proceed = false;
             return false;
         }
+    }
+    for (int k = 0; k < 4; k++){
         if (test_tetro->coords[k][1] + test_tetro->y > 29){
             return false;
         }
@@ -414,7 +416,7 @@ void PlayState::check_all(int& x_val, int& num_rot){
 }
 
 std::vector<std::pair<int, int>> PlayState::check_all_xpos(){
-    int curx = -1*tetro->left + 1;
+    int curx = -1*tetro->left;
     //std::cerr << "left is " << tetro->left << std::endl;
     int stop = board->COLS - tetro->width + 1;
     std::vector<std::pair<int, int>> costs;
@@ -431,9 +433,7 @@ std::vector<std::pair<int, int>> PlayState::check_all_xpos(){
         }
         (test_tetro->y)--;
         //test_tetro->y = 27;
-        std::cerr << "proceed is " << proceed << std::endl;
         if (proceed){
-            test_tetro->x = curx;
             for (int k = 0; k < 4; k++){
                 std::cerr << "(" << test_tetro->coords[k][0] + test_tetro->x << ", " << test_tetro->coords[k][1] + test_tetro->y << ")" << std::endl;
                 test_board[test_tetro->coords[k][1] + test_tetro->y][test_tetro->coords[k][0] + test_tetro->x] = 1;
@@ -445,6 +445,7 @@ std::vector<std::pair<int, int>> PlayState::check_all_xpos(){
             costs.push_back(cost_pos);
         }
         curx++;
+        test_tetro->x = curx;
 
         test_tetro->y = initial;
     }
