@@ -62,7 +62,7 @@ void PlayState::init(GameEngine* game) {
             white, font_game_over, game->renderer);
 
     // Frame rate.
-    acceleration    = 0.005f;
+    acceleration    = 0.015f;
     this_time       = 0;
     last_time       = 0;
     time_till_drop  = 0.3f;
@@ -415,11 +415,6 @@ void PlayState::check_all(int& x_val, int& num_rot){
         }
         for(int i= 0; i < 14; i++){
             if(board->color[22][i] != -1){
-                 filled = true;
-            }
-        }
-        for(int i= 0 ;i < 14; i++){
-            if(board->color[17][i] != -1){
                 filled = true;
                 ending_bound = 14;
             }
