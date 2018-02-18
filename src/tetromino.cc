@@ -2,6 +2,7 @@
 
 #include "src/tetromino.h"
 #include "src/board.h"
+#include <iostream>
 
 const int Tetromino::coords_table[7][4][2] = {
     { { 0, -1 }, { 0, 0 }, { -1, 0 }, { -1, 1 } },  //          0. Z-Block
@@ -66,16 +67,26 @@ void Tetromino::rotate_right() {
 }
 
 void Tetromino::update_width(){
-    int min = 0;
-    int max = 0;
+    int minx = 0;
+    int maxx = 0;
+    int miny = 0;
+    int maxy = 0;
     for (int k = 0; k < 4; k++){
-        if (coords[k][0] < min)
-            min = coords[k][0];
-        if (coords[k][0] > max)
-            max = coords[k][0];   
+        if (coords[k][0] < minx)
+            minx = coords[k][0];
+        if (coords[k][0] > maxx)
+            maxx = coords[k][0];  
+
+        if (coords[k][1] < miny)
+            miny = coords[k][1];
+        //if (coords[k][1] > maxy)
+        //    maxy = coords[k][0];  
     }
-    width = max - min;
-    left = min;
+    width = maxx - minx;
+    left = minx;
+    bottom = miny;
+
+    std::cerr << "LEFT GOT UPDATED TO " << left << std::endl;
 }
 
 void Tetromino::get_shadow(Board *board, int shadow_y[]) {

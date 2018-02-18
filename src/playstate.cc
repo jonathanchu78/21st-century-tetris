@@ -347,14 +347,19 @@ int PlayState::cost(){
     int cost = 0;
     int weights[4] = { 12, 8, 4, 2 };
     for (int k = 0; k < 4; k++) {
-        cost += empty_spots(k)*weights[k];
+        cost += empty_spots(29-k)*weights[k];
     }
     return cost;
 }
 
+//bool PlayState::checkCollision(){
+
+//}
+int initial;
 void PlayState::check_all(int& x_val, int& num_rot){
     std::cerr << "before new tetromino\n" << std::endl;
     test_tetro = new Tetromino(tetro->type);
+    initial = 3;
     //int total_rotations;
 
     int rot = 0;
@@ -362,6 +367,7 @@ void PlayState::check_all(int& x_val, int& num_rot){
     std::cerr << "before rotating\n" << std::endl;
     //get cost vectors for each rotation
     for (; rot < 4; rot++){
+        std::cerr << "rotation is " << rot << std::endl;
         costs.push_back(check_all_xpos());
         test_tetro->rotate_right();
     }
@@ -376,27 +382,30 @@ void PlayState::check_all(int& x_val, int& num_rot){
     //determine minimums
     x_val = min_element(mins.begin(), mins.end())->first.second;
     num_rot =  min_element(mins.begin(), mins.end())->second;
-    //delete(test_tetro);
+    delete(test_tetro);
     std::cerr << "x_val is " << x_val << " and num_rot is " << num_rot << std::endl;
 }
 
 std::vector<std::pair<int, int>> PlayState::check_all_xpos(){
+    std::cerr << "tetro->left is " << tetro->left << std::endl;
     int curx = -1*tetro->left;
-    int stop = board->COLS - tetro->width + 1;
+    int stop = board->COLS - tetro->width;
     std::vector<std::pair<int, int>> costs;
 
     std::pair<int, int> cost_pos;
-    int initial = test_tetro->y;
     for (int k = 0; k < stop; k++){
+        test_tetro->y = initial;
         copyColor();
-        /*while (test_tetro->y < test_board->ROWS && test_board->color[test_tetro->y][test_tetro->x] == -1){
-            test_tetro->y++;
-        }*/
-        test_tetro->y = 28;
+        std::cerr << "ROWS IS " << board->ROWS << std::endl;
+        while (test_tetro->y + test_tetro->bottom < board->ROWS -1 && test_board[test_tetro->y + test_tetro->bottom][test_tetro->x] == -1){
+            (test_tetro->y)++;
+            std::cerr << "left is " << test_tetro->left << " and bottom is " << test_tetro->bottom << std::endl;
+        }
+        //test_tetro->y = 27;
         test_tetro->x = curx;
         for (int k = 0; k < 4; k++){
-            test_board[test_tetro->coords[k][1] + test_tetro->y][test_tetro->coords[k][0] + test_tetro->x] = 1;
             std::cerr << "(" << test_tetro->coords[k][0] + test_tetro->x << ", " << test_tetro->coords[k][1] + test_tetro->y << ")" << std::endl;
+            test_board[test_tetro->coords[k][1] + test_tetro->y][test_tetro->coords[k][0] + test_tetro->x] = 1;
         }
         std::cerr << "x is " << curx << " and y is " << test_tetro->y << std::endl;
         cost_pos.first = cost(); 
@@ -404,6 +413,7 @@ std::vector<std::pair<int, int>> PlayState::check_all_xpos(){
         cost_pos.second = curx;
         costs.push_back(cost_pos);
         curx++;
+
         test_tetro->y = initial;
     }
     return costs;
