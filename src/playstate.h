@@ -47,6 +47,8 @@ class PlayState : public GameState {
     std::vector<std::pair<int, int>> check_all_xpos(); //helper function to check_all()
     int empty_spots(int i);
     int cost();
+    bool checkInBounds();
+    bool checkCollision();
     void firstSearch();
     void draw_block(GameEngine* game, int x, int y, int k, SDL_Rect clips[]);
     void create_button(GameEngine* game,

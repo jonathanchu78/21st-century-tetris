@@ -345,16 +345,42 @@ int PlayState::empty_spots(int i){ // count number of empty spots in row i
 }
 int PlayState::cost(){
     int cost = 0;
-    int weights[4] = { 12, 8, 4, 2 };
+    int weights[4] = { 50, 15, 11, 8 };
     for (int k = 0; k < 4; k++) {
         cost += empty_spots(29-k)*weights[k];
     }
     return cost;
 }
 
-//bool PlayState::checkCollision(){
+bool proceed;
+bool PlayState::checkInBounds(){
+    for (int k = 0; k < 4; k++){
+        if (test_tetro->coords[k][1] + test_tetro->y > 29){
+            return false;
+        }
+        if (test_tetro->coords[k][0] + test_tetro->x < 0){
+            //test_tetro->x++;
+            proceed = false;
+            return false;
+        }
+        if (test_tetro->coords[k][0] + test_tetro->x > 14){
+            //test_tetro->x--;
+            std::cerr << "X IS TOO HIGH\n" << std::endl;
+            proceed = false;
+            return false;
+        }
+    }
+    return true;
+}
 
-//}
+bool PlayState::checkCollision(){
+    for (int k = 0; k < 4; k++){
+        if (test_board[test_tetro->coords[k][1] + test_tetro->y][test_tetro->coords[k][0] + test_tetro->x] != -1)
+            return false;
+    }
+    return true;
+}
+
 int initial;
 void PlayState::check_all(int& x_val, int& num_rot){
     std::cerr << "before new tetromino\n" << std::endl;
@@ -382,36 +408,42 @@ void PlayState::check_all(int& x_val, int& num_rot){
     //determine minimums
     x_val = min_element(mins.begin(), mins.end())->first.second;
     num_rot =  min_element(mins.begin(), mins.end())->second;
+    int cost = min_element(mins.begin(), mins.end())->first.first;
     delete(test_tetro);
-    std::cerr << "x_val is " << x_val << " and num_rot is " << num_rot << std::endl;
+    std::cerr << "x_val is " << x_val << ", num_rot is " << num_rot << ", and cost is " << cost << std::endl;
 }
 
 std::vector<std::pair<int, int>> PlayState::check_all_xpos(){
-    std::cerr << "tetro->left is " << tetro->left << std::endl;
-    int curx = -1*tetro->left;
-    int stop = board->COLS - tetro->width;
+    int curx = -1*tetro->left + 1;
+    //std::cerr << "left is " << tetro->left << std::endl;
+    int stop = board->COLS - tetro->width + 1;
     std::vector<std::pair<int, int>> costs;
 
     std::pair<int, int> cost_pos;
     for (int k = 0; k < stop; k++){
         test_tetro->y = initial;
+
         copyColor();
-        std::cerr << "ROWS IS " << board->ROWS << std::endl;
-        while (test_tetro->y + test_tetro->bottom < board->ROWS -1 && test_board[test_tetro->y + test_tetro->bottom][test_tetro->x] == -1){
+        test_tetro->update_width();
+        proceed = true;
+        while (checkInBounds() && checkCollision()){
             (test_tetro->y)++;
-            std::cerr << "left is " << test_tetro->left << " and bottom is " << test_tetro->bottom << std::endl;
         }
+        (test_tetro->y)--;
         //test_tetro->y = 27;
-        test_tetro->x = curx;
-        for (int k = 0; k < 4; k++){
-            std::cerr << "(" << test_tetro->coords[k][0] + test_tetro->x << ", " << test_tetro->coords[k][1] + test_tetro->y << ")" << std::endl;
-            test_board[test_tetro->coords[k][1] + test_tetro->y][test_tetro->coords[k][0] + test_tetro->x] = 1;
+        std::cerr << "proceed is " << proceed << std::endl;
+        if (proceed){
+            test_tetro->x = curx;
+            for (int k = 0; k < 4; k++){
+                std::cerr << "(" << test_tetro->coords[k][0] + test_tetro->x << ", " << test_tetro->coords[k][1] + test_tetro->y << ")" << std::endl;
+                test_board[test_tetro->coords[k][1] + test_tetro->y][test_tetro->coords[k][0] + test_tetro->x] = 1;
+            }
+            //std::cerr << "x is " << curx << " and y is " << test_tetro->y << std::endl;
+            cost_pos.first = cost(); 
+            std::cerr << "cost is " << cost() << std::endl;
+            cost_pos.second = curx;
+            costs.push_back(cost_pos);
         }
-        std::cerr << "x is " << curx << " and y is " << test_tetro->y << std::endl;
-        cost_pos.first = cost(); 
-        std::cerr << "cost is " << cost() << std::endl;
-        cost_pos.second = curx;
-        costs.push_back(cost_pos);
         curx++;
 
         test_tetro->y = initial;

@@ -84,9 +84,8 @@ void Tetromino::update_width(){
     }
     width = maxx - minx;
     left = minx;
+    right = maxx;
     bottom = miny;
-
-    std::cerr << "LEFT GOT UPDATED TO " << left << std::endl;
 }
 
 void Tetromino::get_shadow(Board *board, int shadow_y[]) {
