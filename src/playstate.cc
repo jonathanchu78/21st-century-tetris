@@ -167,6 +167,12 @@ void PlayState::reset() {
     newgamedown     = false;
 
     paused = false;
+    int newx;
+    int rotnum;
+    check_all(newx,rotnum);
+    tetro->rotate_right_multiple(rotnum);
+    tetro->set_position(newx,tetro->y);
+    tetro->speed_up = true;
 }
 
 // Handle player input.
