@@ -403,6 +403,21 @@ bool PlayState::checkCollision(){
 int initial;
 void PlayState::check_all(int& x_val, int& num_rot){
     std::cerr << "before new tetromino\n" << std::endl;
+    bool filled = true
+    if(tetro->type == 5){
+        for(int i = 0; i < 14;i++){
+            for(int j = 26; j < 30; j++){
+                if(color[j][i] == -1){
+                    filled = false;
+                }
+            }
+        }
+    }
+    if(filled = true && tetro->type == 5){
+        x_val = 14; 
+        num_rot = 0;
+        return;
+    }
     test_tetro = new Tetromino(tetro->type);
     initial = 3;
     //int total_rotations;
@@ -435,7 +450,7 @@ void PlayState::check_all(int& x_val, int& num_rot){
 std::vector<std::pair<int, int>> PlayState::check_all_xpos(){
     int curx = 0;
     std::cerr << "left is " << tetro->left << std::endl;
-    int stop = board->COLS - tetro->width + 1;
+    int stop = board->COLS - tetro->width; //Change back if tetris formula doesn't work
     std::vector<std::pair<int, int>> costs;
 
     std::pair<int, int> cost_pos;
@@ -530,7 +545,7 @@ void PlayState::update(GameEngine* game) {
 
         // Assign the time required for tetromino to fall down one block.
         if (tetro->speed_up) {
-            time_till_drop = 0.02f;  // 2x slower than free fall.
+            time_till_drop = 0.04f;  // 2x slower than free fall.
         } else {
             // Drop speed proportional to score.
             time_till_drop = 0.0006f - board->get_score()*acceleration;
