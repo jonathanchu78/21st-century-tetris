@@ -48,7 +48,6 @@ class PlayState : public GameState {
     int cost();
     bool checkInBounds();
     bool checkCollision();
-    void firstSearch();
     void draw_block(GameEngine* game, int x, int y, int k, SDL_Rect clips[]);
     void create_button(GameEngine* game,
             int x, int y, int width, int height, int color[]);

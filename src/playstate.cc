@@ -97,6 +97,7 @@ void PlayState::init(GameEngine* game) {
     check_all(newx,rotnum);
     tetro->rotate_right_multiple(rotnum);
     tetro->set_position(newx,tetro->y);
+    tetro->speed_up = true;
 }
 
 void PlayState::clean_up(GameEngine* game) {
@@ -166,13 +167,6 @@ void PlayState::reset() {
     newgamedown     = false;
 
     paused = false;
-}
-
-void PlayState::firstSearch(){
-    int startpos;
-    int endpos;
-    findBotSpace(board->color[board->ROWS-1],startpos,endpos);
-    tetro->set_position(startpos + -1*tetro->left, tetro->y);
 }
 
 // Handle player input.
@@ -318,8 +312,14 @@ int PlayState::empty_spots(int i){ // count number of empty spots in row i
 
 int PlayState::cost(){
     int cost = 0;
-    int weights[9] = { 500, 250, 125, 63, 32, 16, 8, 4, 2 };
-    for (int k = 0; k < 9; k++) {
+    std::vector<int> weights;
+    int weight = 191751;
+    for (int k = 29; k >= 0; k--){
+        weights.push_back(weight);
+        weight /= 1.5;
+    }
+    int size = weights.size();
+    for (int k = 0; k < size; k++) {
         cost += empty_spots(29-k)*weights[k];
     }
     return cost;
@@ -330,6 +330,7 @@ bool PlayState::checkInBounds(){
     for (int k = 0; k < 4; k++){
         if (test_tetro->coords[k][0] + test_tetro->x < 0){
             //test_tetro->x++;
+            std::cerr << "X IS TOO LOW\n" << std::endl;
             proceed = false;
             return false;
         }
@@ -389,13 +390,14 @@ void PlayState::check_all(int& x_val, int& num_rot){
 }
 
 std::vector<std::pair<int, int>> PlayState::check_all_xpos(){
-    int curx = -1*tetro->left;
-    //std::cerr << "left is " << tetro->left << std::endl;
+    int curx = 0;
+    std::cerr << "left is " << tetro->left << std::endl;
     int stop = board->COLS - tetro->width + 1;
     std::vector<std::pair<int, int>> costs;
 
     std::pair<int, int> cost_pos;
     for (int k = 0; k < stop; k++){
+        test_tetro->x = curx;
         test_tetro->y = initial;
 
         copyColor();
@@ -418,7 +420,6 @@ std::vector<std::pair<int, int>> PlayState::check_all_xpos(){
             costs.push_back(cost_pos);
         }
         curx++;
-        test_tetro->x = curx;
 
         test_tetro->y = initial;
     }
@@ -442,7 +443,7 @@ void PlayState::release_tetromino() {
     check_all(newx,rotnum);
     tetro->rotate_right_multiple(rotnum);
     tetro->set_position(newx,tetro->y);
-	
+    tetro->speed_up = true;
 }
 
 // Update game values.
