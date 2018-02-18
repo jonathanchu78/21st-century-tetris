@@ -355,9 +355,6 @@ int PlayState::cost(){
 bool proceed;
 bool PlayState::checkInBounds(){
     for (int k = 0; k < 4; k++){
-        if (test_tetro->coords[k][1] + test_tetro->y > 29){
-            return false;
-        }
         if (test_tetro->coords[k][0] + test_tetro->x < 0){
             //test_tetro->x++;
             proceed = false;
@@ -367,6 +364,9 @@ bool PlayState::checkInBounds(){
             //test_tetro->x--;
             std::cerr << "X IS TOO HIGH\n" << std::endl;
             proceed = false;
+            return false;
+        }
+        if (test_tetro->coords[k][1] + test_tetro->y > 29){
             return false;
         }
     }
