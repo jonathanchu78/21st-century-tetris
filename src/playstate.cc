@@ -175,7 +175,7 @@ void PlayState::reset() {
     tetro->rotate_right_multiple(rotnum);
     tetro->set_position(newx,tetro->y);
     tetro->speed_up = true;
-    ending_bound = 14;
+    ending_bound = 13;
 }
 
 // Handle player input.
