@@ -44,6 +44,8 @@ class PlayState : public GameState {
     void copyColor();
     void check_all(int& x_val, int& num_rot); //returns x and # right rotations
     std::vector<std::pair<int, int>> check_all_xpos(); //helper function to check_all()
+    bool adjacent_occupied(int k, int j);
+    int count_pits(int length);
     int empty_spots(int i);
     int cost();
     bool checkInBounds();

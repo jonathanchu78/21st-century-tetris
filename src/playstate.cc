@@ -6,6 +6,7 @@
 #include <vector>
 #include <algorithm>
 #include <iostream>
+#include <cmath>
 
 #include "src/game_engine.h"
 #include "src/tetromino.h"
@@ -306,13 +307,43 @@ void PlayState::copyColor(){
         }
 }
 
+bool PlayState::adjacent_occupied(int k, int j){
+    if (k != 0 && test_board[k - 1][j] != -1)
+        return true;
+    if (k != 14 && test_board[k + 1][j] != -1)
+        return true;
+    return false;
+}
+
+int PlayState::count_pits(int length){
+    int max_len = 0;
+    int cur_len = 0;
+    int count = 0;
+    for (int k = 0; k < 15; k++){
+        for (int j = 0; j < 30; j++){
+            if (test_board[j][k] == -1 && adjacent_occupied(k, j)){
+                cur_len++;
+                if (cur_len > max_len)
+                    max_len = cur_len;
+            }
+            else
+                cur_len = 0;
+        }
+        if (max_len >= length)
+            count++;
+        max_len = 0;
+    }
+    std::cerr << "COUNT IS " << count << std::endl;
+    return count;
+}
+
 int PlayState::empty_spots(int i){ // count number of empty spots in row i
     int count = 0;
     for (int k = 0; k < board->COLS; k++){
         if (test_board[i][k] == -1) count++;
         else if (i != 29 && test_board[i + 1][k] == -1){
             if (i <= 25)
-                if (test_board[i + 2][k] == -1 && test_board[i + 3][k] == -1 && test_board[i + 4][k] == -1){}
+                if (test_board[i + 2][k] == -1 && test_board[i + 3][k] == -1 && test_board[i + 4][k] == -1 && count_pits(4) >= 2){}
                 else count += 4;
             else
                 count += 4; //ADD TO COST 
@@ -321,13 +352,14 @@ int PlayState::empty_spots(int i){ // count number of empty spots in row i
     return count;
 }
 
+const double factor = 1.5;
 int PlayState::cost(){
     int cost = 0;
     std::vector<int> weights;
-    int weight = 191751;
+    double weight = std::pow(factor, 30);
     for (int k = 29; k >= 0; k--){
         weights.push_back(weight);
-        weight /= 1.5;
+        weight /= factor;
     }
     int size = weights.size();
     for (int k = 0; k < size; k++) {
@@ -344,8 +376,8 @@ bool PlayState::checkInBounds(){
             std::cerr << "X IS TOO LOW\n" << std::endl;
             proceed = false;
             return false;
-        }
-        if (test_tetro->coords[k][0] + test_tetro->x > 14){
+        }                                                                     
+        if (test_tetro->coords[k][0] + test_tetro->x > 13){
             //test_tetro->x--;
             std::cerr << "X IS TOO HIGH\n" << std::endl;
             proceed = false;
@@ -371,21 +403,24 @@ bool PlayState::checkCollision(){
 int initial;
 void PlayState::check_all(int& x_val, int& num_rot){
     std::cerr << "before new tetromino\n" << std::endl;
-    bool filled = true
+    bool filled = true;
     if(tetro->type == 5){
         for(int i = 0; i < 14;i++){
             for(int j = 26; j < 30; j++){
-                if(color[j][i] == -1){
+                if(board->color[j][i] == -1){
                     filled = false;
                 }
             }
         }
+<<<<<<< HEAD
         for(int i= 0; i < 14; i++){
             if(board->color[27][i] != -1);
         }
         filled = true;
+=======
+>>>>>>> dbaf4e66b2ccb84829c2f2069ea520819e3d62d0
     }
-    if(filled = true && tetro->type == 5){
+    if(filled == true && tetro->type == 5){
         x_val = 14; 
         num_rot = 0;
         return;
@@ -518,7 +553,7 @@ void PlayState::update(GameEngine* game) {
 
         // Assign the time required for tetromino to fall down one block.
         if (tetro->speed_up) {
-            time_till_drop = 0.12f;  // 2x slower than free fall.
+            time_till_drop = 0.04f;  // 2x slower than free fall.
         } else {
             // Drop speed proportional to score.
             time_till_drop = 0.0006f - board->get_score()*acceleration;
