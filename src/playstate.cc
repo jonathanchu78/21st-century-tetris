@@ -363,13 +363,13 @@ void PlayState::check_all(int& x_val, int& num_rot){
     std::vector<std::pair<int, int>> costs;
     std::cerr << "before rotating\n" << std::endl;
     initial = 3;
+    test_tetro = new Tetromino(tetro->type);
     //get cost vectors for each rotation
     for (; rot < 4; rot++){
-        test_tetro = new Tetromino(tetro->type);
-        test_tetro->rotate_right_multiple(rot);
         costs.push_back(check_all_xpos());
-        delete(test_tetro);
+        test_tetro->rotate_right();
     }
+    delete(test_tetro);
     std::vector<std::pair<std::pair<int, int>, int>> mins; //holds minimium costs for each rotation
     std::pair<std::pair<int, int>, int> temp; //to insert elements into mins
     //insert minimums into vector, along with indices
@@ -390,7 +390,6 @@ std::pair<int, int> PlayState::check_all_xpos(){
     for(int i = 0; i < board->COLS;i++){
         for(int j = 0; j < board->ROWS;j++){
             test_tetro->set_position(i,j);
-            copyColor();
             bool valid = true;
             for (int i = 0; i < tetro->SIZE; i++) {
                 int x = tetro->get_block_x(i);
@@ -409,7 +408,6 @@ std::pair<int, int> PlayState::check_all_xpos(){
                     }
                 }
             }
-            std::cerr << "Check is " << valid << std::endl;
             if(valid){
                 copyColor();
                 for(int i = 0; i < tetro->SIZE;i++){
