@@ -5,6 +5,7 @@
 #include <random>
 #include <vector>
 #include <algorithm>
+#include <iostream>
 
 #include "src/game_engine.h"
 #include "src/tetromino.h"
@@ -328,13 +329,37 @@ void PlayState::findBotSpace(int arr[], int& startpos, int& endpos)
 	}
 }
 
+void PlayState::copyColor(){
+    for (int k = 0; k < board->COLS; k++)
+        for (int j = 0; j < board->ROWS; j++){
+            test_board[j][k] = board->color[j][k];
+        }
+}
+
+int PlayState::empty_spots(int i){ // count number of empty spots in row i
+    int count = 0;
+    for (int k = 0; k < board->COLS; k++){
+        if (test_board[i][k] == -1) count++;
+    }
+    return count;
+}
+int PlayState::cost(){
+    int cost = 0;
+    int weights[4] = { 12, 8, 4, 2 };
+    for (int k = 0; k < 4; k++) {
+        cost += empty_spots(k)*weights[k];
+    }
+    return cost;
+}
+
 void PlayState::check_all(int& x_val, int& num_rot){
-    test_board = new Board;
+    std::cerr << "before new tetromino\n" << std::endl;
     test_tetro = new Tetromino(tetro->type);
-    int total_rotations;
+    //int total_rotations;
 
     int rot = 0;
     std::vector<std::vector<std::pair<int, int>>> costs;
+    std::cerr << "before rotating\n" << std::endl;
     //get cost vectors for each rotation
     for (; rot < 4; rot++){
         test_tetro->rotate_right();
@@ -351,23 +376,34 @@ void PlayState::check_all(int& x_val, int& num_rot){
     //determine minimums
     x_val = min_element(mins.begin(), mins.end())->first.second;
     num_rot =  min_element(mins.begin(), mins.end())->second;
+    //delete(test_tetro);
+    std::cerr << "x_val is " << x_val << " and num_rot is " << num_rot << std::endl;
 }
 
 std::vector<std::pair<int, int>> PlayState::check_all_xpos(){
     int curx = -1*tetro->left;
-    int stop = test_board->COLS - tetro->width + 1;
+    int stop = board->COLS - tetro->width + 1;
     std::vector<std::pair<int, int>> costs;
 
     std::pair<int, int> cost_pos;
+    int initial = test_tetro->y;
     for (int k = 0; k < stop; k++){
-        while (test_tetro->y < board->ROWS && board->color[test_tetro->y][test_tetro->x] == -1){
+        copyColor();
+        /*while (test_tetro->y < test_board->ROWS && test_board->color[test_tetro->y][test_tetro->x] == -1){
             test_tetro->y++;
+        }*/
+        test_tetro->y = 28;
+        test_tetro->x = curx;
+        for (int k = 0; k < 4; k++){
+            test_board[test_tetro->coords[k][1]][test_tetro->coords[k][0]] = 1;
         }
-        test_tetro->y--;
-        cost_pos.first = test_board->cost(); 
+        std::cerr << "x is " << curx << " and y is " << test_tetro->y << std::endl;
+        cost_pos.first = cost(); 
+        std::cerr << "cost is " << cost() << std::endl;
         cost_pos.second = curx;
         costs.push_back(cost_pos);
         curx++;
+        test_tetro->y = initial;
     }
     return costs;
 }
@@ -391,11 +427,11 @@ void PlayState::release_tetromino() {
 	tetro->set_position(startpos + -1*tetro->left, tetro->y);
     tetro->speed_up = true;
     */
-    int newx;
-    int rotnum;
-    check_all(newx,rotnum);
-    tetro->set_position(newx,tetro->y);
+    int newx = 4;
+    int rotnum = 2;
+    //check_all(newx,rotnum);
     tetro->rotate_right_multiple(rotnum);
+    tetro->set_position(newx,tetro->y);
 	
 }
 

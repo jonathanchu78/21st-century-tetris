@@ -21,9 +21,6 @@ class Board {
     void delete_full_rows();
     bool add(Tetromino* tetro);
 
-    int empty_spots(int i); // count number of empty spots in row i
-    int cost();
-
  private:
     bool full_row(int row);
     void shift_down(int row);
