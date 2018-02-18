@@ -404,7 +404,6 @@ bool PlayState::checkCollision(){
 int initial;
 void PlayState::check_all(int& x_val, int& num_rot){
     std::cerr << "before new tetromino\n" << std::endl;
-    endingbound=14;
     if(tetro->type == 5){
         for(int i = 0; i < 14;i++){
             for(int j = 26; j < 30; j++){
@@ -419,7 +418,7 @@ void PlayState::check_all(int& x_val, int& num_rot){
             }
         }
     }
-    if(endingbound==13 && tetro->type == 5){
+    if(endingbound==14 && tetro->type == 5){
         x_val = 14; 
         num_rot = 0;
         return;
