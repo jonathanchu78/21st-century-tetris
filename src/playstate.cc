@@ -306,15 +306,36 @@ void PlayState::copyColor(){
             test_board[j][k] = board->color[j][k];
         }
 }
-/*
-int count_pits(int length){
+
+bool PlayState::adjacent_occupied(int k, int j){
+    if (k != 0 && test_board[k - 1][j] != -1)
+        return true;
+    if (k != 14 && test_board[k + 1][j] != -1)
+        return true;
+    return false;
+}
+
+int PlayState::count_pits(int length){
+    int max_len = 0;
+    int cur_len = 0;
     int count = 0;
     for (int k = 0; k < 15; k++){
         for (int j = 0; j < 30; j++){
-            if ()
+            if (test_board[j][k] == -1 && adjacent_occupied(k, j)){
+                cur_len++;
+                if (cur_len > max_len)
+                    max_len = cur_len;
+            }
+            else
+                cur_len = 0;
         }
+        if (max_len >= length)
+            count++;
+        max_len = 0;
     }
-}*/
+    std::cerr << "COUNT IS " << count << std::endl;
+    return count;
+}
 
 int PlayState::empty_spots(int i){ // count number of empty spots in row i
     int count = 0;
@@ -322,7 +343,7 @@ int PlayState::empty_spots(int i){ // count number of empty spots in row i
         if (test_board[i][k] == -1) count++;
         else if (i != 29 && test_board[i + 1][k] == -1){
             if (i <= 25)
-                if (test_board[i + 2][k] == -1 && test_board[i + 3][k] == -1 && test_board[i + 4][k] == -1){}
+                if (test_board[i + 2][k] == -1 && test_board[i + 3][k] == -1 && test_board[i + 4][k] == -1 && count_pits(4) < 2){}
                 else count += 4;
             else
                 count += 4; //ADD TO COST 
