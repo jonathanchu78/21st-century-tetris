@@ -501,7 +501,7 @@ void PlayState::update(GameEngine* game) {
             time_till_drop = 0.02f;  // 2x slower than free fall.
         } else {
             // Drop speed proportional to score.
-            time_till_drop = 0.0003f - board->get_score()*acceleration;
+            time_till_drop = 0.0006f - board->get_score()*acceleration;
         }
 
         // Add time elapsed.
