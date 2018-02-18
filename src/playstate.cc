@@ -340,9 +340,12 @@ int PlayState::empty_spots(int i){ // count number of empty spots in row i
     int count = 0;
     for (int k = 0; k < board->COLS; k++){
         if (test_board[i][k] == -1) count++;
+        else if (i != 29 && test_board[i + 1][k] == -1)
+            count += 4; //ADD TO COST 
     }
     return count;
 }
+
 int PlayState::cost(){
     int cost = 0;
     int weights[9] = { 500, 250, 125, 63, 32, 16, 8, 4, 2 };
