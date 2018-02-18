@@ -413,7 +413,7 @@ void PlayState::check_all(int& x_val, int& num_rot){
             }
         }
         for(int i= 0; i < 14; i++){
-            if(board->color[27][i] != -1){
+            if(board->color[22][i] != -1){
                  filled = true;
             }
         }
