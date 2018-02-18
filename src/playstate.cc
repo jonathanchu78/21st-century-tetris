@@ -368,7 +368,7 @@ int PlayState::cost(){
     return cost;
 }
 
-int ending_bound =13
+int ending_bound =13;
 bool proceed;
 bool PlayState::checkInBounds(){
     for (int k = 0; k < 4; k++){
@@ -419,13 +419,13 @@ void PlayState::check_all(int& x_val, int& num_rot){
             }
         }
         for(int i= 0 ;i < 14; i++){
-            if(board->color[14][i] != -1){
+            if(board->color[17][i] != -1){
                 filled = true;
                 ending_bound = 14;
             }
         }
     }
-    if(filled == true && tetro->type == 5){
+    if(filled == true && tetro->type == 5 && endingbound != 14){
         x_val = 14; 
         num_rot = 0;
         return;
