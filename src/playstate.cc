@@ -389,7 +389,7 @@ std::pair<int, int> PlayState::check_all_xpos(){
     int x = 0;
     for(int i = 0; i < board->COLS;i++){
         for(int j = 0; j < board->ROWS;j++){
-            test_tetro.set_position(i,j);
+            test_tetro->set_position(i,j);
             copyColor();
             bool valid = true;
             for (int i = 0; i < tetro->SIZE; i++) {
@@ -414,7 +414,7 @@ std::pair<int, int> PlayState::check_all_xpos(){
                 for(int i = 0; i < tetro->SIZE;i++){
                     int x = tetro->get_block_x(i);
                     int y = tetro->get_block_y(i);
-                    test_board[y][x] = -1;
+                    test_board[y][x] = 1;
                 }
                 if(cost() < min){
                     min = cost();
